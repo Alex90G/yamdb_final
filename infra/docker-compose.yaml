@@ -17,7 +17,7 @@ services:
 
   web:
 
-    build: ../api_yamdb/
+    image: alex90g/api_yamdb:final
 
     restart: always
 
