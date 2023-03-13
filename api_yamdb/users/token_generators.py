@@ -9,6 +9,6 @@ def generate_key(user):
 
 def get_tokens_for_user(user):
     """Генератор аксесс-токена JWT."""
-    #access = AccessToken.for_user(user)
+    # access = AccessToken.for_user(user)
 
     return AccessToken.for_user(user)
