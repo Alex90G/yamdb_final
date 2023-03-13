@@ -34,7 +34,7 @@ yamdb_final
 - Клонировать репозиторий и перейти в него в командной строке:
 
 ```bash
-git clone https://github.com/Alex90G/infra_sp2.git
+git clone https://github.com/Alex90G/yamdb_final.git
 ```
 
 ```bash
