@@ -1,6 +1,26 @@
 name: Django-app workflow
 
-on: [push]
+on: 
+  push:
+    branches:
+    - master
+    - main
+  jobs:
+    - tests
+    - build_and_push_to_docker_hub
+    - deploy
+    - send_message
+
+on: 
+  push:
+    branches:
+    - !master
+    - !main
+  jobs:
+    - tests
+    - build_and_push_to_docker_hub
+    - deploy
+    - send_message
 
 jobs:
   tests:
