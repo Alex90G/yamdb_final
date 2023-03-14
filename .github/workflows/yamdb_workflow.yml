@@ -1,6 +1,26 @@
 name: Django-app workflow
 
-on: [push]
+on: 
+  push:
+    branches:
+    - master
+    - main
+  jobs:
+    - tests
+    - build_and_push_to_docker_hub
+    - deploy
+    - send_message
+
+on: 
+  push:
+    branches:
+    - !master
+    - !main
+  jobs:
+    - tests
+    - build_and_push_to_docker_hub
+    - deploy
+    - send_message
 
 jobs:
   tests:
@@ -23,12 +43,12 @@ jobs:
       run: |
         python -m flake8
         pytest        
-if:
-branches:
-  - main
-  - master
 
-build_and_push_to_docker_hub:
+  build_and_push_to_docker_hub:
+    if:
+      branches:
+        - main
+        - master
       
       name: Push Docker image to Docker Hub
       runs-on: ubuntu-latest
@@ -85,3 +105,4 @@ build_and_push_to_docker_hub:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: ${{ github.workflow }} успешно выполнен! 
+  
