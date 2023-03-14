@@ -1,26 +1,6 @@
 name: Django-app workflow
 
-on: 
-  push:
-    branches:
-    - master
-    - main
-  jobs:
-    - tests
-    - build_and_push_to_docker_hub
-    - deploy
-    - send_message
-
-on: 
-  push:
-    branches:
-    - !master
-    - !main
-  jobs:
-    - tests
-    - build_and_push_to_docker_hub
-    - deploy
-    - send_message
+on: [push]
 
 jobs:
   tests:
@@ -42,38 +22,30 @@ jobs:
     - name: Test with flake8 and django tests
       run: |
         python -m flake8
-        pytest        
-
+        pytest
   build_and_push_to_docker_hub:
-    if:
-      branches:
-        - main
-        - master
-      
-      name: Push Docker image to Docker Hub
-      runs-on: ubuntu-latest
-      needs: tests
-      steps:
-        - name: Check out the repo
-          uses: actions/checkout@v2 
-        - name: Set up Docker Buildx
-          uses: docker/setup-buildx-action@v1 
-        - name: Login to Docker 
-          uses: docker/login-action@v1 
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-        - name: Push to Docker Hub
-          uses: docker/build-push-action@v2 
-          with:
-            push: true
-            tags: alex90g/api_yamdb:final
+    if: "contains(github.ref, 'master' || 'main')"
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1 
+    - name: Login to Docker 
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push to Docker Hub
+      uses: docker/build-push-action@v2 
+      with:
+        push: true
+        context: ./api_yamdb/
+        tags: alex90g/api_yamdb:final
   deploy:
-    if:
-      branches:
-        - main
-        - master
-      
+    if: "contains(github.ref, 'master' || 'main')"
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
@@ -96,6 +68,7 @@ jobs:
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           sudo docker-compose up -d
   send_message:
+    if: "contains(github.ref, 'master' || 'main')"
     runs-on: ubuntu-latest
     needs: deploy
     steps:
@@ -105,4 +78,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: ${{ github.workflow }} успешно выполнен! 
-  
+ 
