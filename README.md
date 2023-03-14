@@ -113,43 +113,14 @@ infra/.env
 cd api_yamdb && python manage.py loaddata ../infra/fixtures.json
 ```
 
-# Примеры:
+# Документация API и примеры:
 
-1) Регистрация нового пользователя:
-http://127.0.0.1:8000/api/v1/auth/signup/
+```json
+/redoc/
+```
 
-Параметры запроса:
-- "email" (string, электронная почта пользователя)
-- "username" (string, имя учётной записи пользователя)
+# Адрес для подключения к проекту:
+http://51.250.109.215/admin/login/
 
-Пример ответа:
-
-{
-  "email": "string",
-  "username": "string"
-}
-
-2) Получение списка всех произведений:
-http://127.0.0.1:8000/api/v1/titles/
-
-Параметры запроса:
-- category (string, фильтр по полю slug категории)
-- genre (string, фильтру по полю slug жанра)
-- name (string, фильтр по названию произведения)
-- year (string, фильтр по году)
-
-
-Пример ответа:
-[
-{
-
-    "count": 0,
-    "next": "string",
-    "previous": "string",
-    "results": 
-
-        []
-    }
-]
-
+# Статус бэйджа (настройки приватности репозитория - "Public")
 ![main workflow](https://github.com/Alex90G/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
