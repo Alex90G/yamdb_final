@@ -96,12 +96,6 @@ docker-compose exec web python manage.py collectstatic --no-input
 docker-compose down -v
 ```
 
-### Документация API с примерами:
-
-```json
-/redoc/
-```
-
 ### шаблон наполнения env-файла
 см.
 ```bash
