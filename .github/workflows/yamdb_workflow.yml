@@ -24,7 +24,7 @@ jobs:
         python -m flake8
         pytest
   build_and_push_to_docker_hub:
-    if: "contains(github.ref, 'master')"
+    if: "contains(github.ref, 'master' || 'master')"
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     needs: tests
